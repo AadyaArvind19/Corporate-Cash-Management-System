@@ -1,0 +1,60 @@
+
+ RUN  v3.2.7 /home/claude/cash-management-system
+
+ ✓ tests/api.e2e.test.ts > authentication > rejects wrong and unknown credentials with the same message 746ms
+ ✓ tests/api.e2e.test.ts > authentication > sets an HttpOnly, SameSite session cookie 91ms
+ ✓ tests/api.e2e.test.ts > authentication > requires a session for APIs and redirects pages to the login screen 8ms
+ ✓ tests/api.e2e.test.ts > authentication > rejects a forged session token 5ms
+ ✓ tests/api.e2e.test.ts > authorisation (roles) > analysts are read-only 33ms
+ ✓ tests/api.e2e.test.ts > authorisation (roles) > treasurers cannot manage structure or users 16ms
+ ✓ tests/api.e2e.test.ts > authorisation (roles) > non-admins are redirected away from admin pages 22ms
+ ✓ tests/api.e2e.test.ts > tenant isolation > each corporation only sees its own accounts and batches 24ms
+ ✓ tests/api.e2e.test.ts > validation and safety > validates input with a 400 and field messages 6ms
+ ✓ tests/api.e2e.test.ts > validation and safety > rejects cross-origin state changes 4ms
+ ✓ tests/api.e2e.test.ts > validation and safety > is not vulnerable to SQL injection in search and filters 13ms
+ ✓ tests/api.e2e.test.ts > validation and safety > surfaces database rules as friendly errors 18ms
+ ✓ tests/api.e2e.test.ts > validation and safety > enforces password strength and keeps at least one admin 21ms
+ ✓ tests/api.e2e.test.ts > treasury workflows > returns a sweep plan with routes and base-currency totals 19ms
+ ✓ tests/api.e2e.test.ts > treasury workflows > finds routes via the recursive routing function 7ms
+ ✓ tests/api.e2e.test.ts > treasury workflows > records a new exchange rate (append-only history) 15ms
+ ✓ tests/api.e2e.test.ts > treasury workflows > posts a statement balance and shows it in the account history 25ms
+ ✓ tests/api.e2e.test.ts > treasury workflows > executes the batch, then reports nothing left to do 59ms
+ ✓ tests/db.integration.test.ts > schema & constraints > rejects a negative balance 5ms
+ ✓ tests/db.integration.test.ts > schema & constraints > refuses to close an account that still holds funds 1ms
+ ✓ tests/db.integration.test.ts > schema & constraints > stores only bcrypt hashes in users.password_hash 3ms
+ ✓ tests/db.integration.test.ts > schema & constraints > allows only one open treasury account per corporation 2ms
+ ✓ tests/db.integration.test.ts > schema & constraints > blocks an account from referencing a subsidiary of another corporation 1ms
+ ✓ tests/db.integration.test.ts > schema & constraints > rejects a corridor from a bank to itself 1ms
+ ✓ tests/db.integration.test.ts > schema & constraints > freezes currency of accounts that already have transfers 1ms
+ ✓ tests/db.integration.test.ts > append-only ledgers (triggers) > blocks UPDATE and DELETE on sweep_transactions 2ms
+ ✓ tests/db.integration.test.ts > append-only ledgers (triggers) > blocks UPDATE and DELETE on exchange_rates 2ms
+ ✓ tests/db.integration.test.ts > append-only ledgers (triggers) > rejects a SWEEP whose destination is not the treasury account 3ms
+ ✓ tests/db.integration.test.ts > append-only ledgers (triggers) > rejects an amount inconsistent with the exchange rate 1ms
+ ✓ tests/db.integration.test.ts > exchange rates & routing > derives cross rates through USD and inverse pairs 1ms
+ ✓ tests/db.integration.test.ts > exchange rates & routing > picks the cheaper two-hop route over the expensive direct corridor (HDFC -> JPM) 2ms
+ ✓ tests/db.integration.test.ts > exchange rates & routing > ignores suspended corridors (MUFG -> JPM must go through DBS) 1ms
+ ✓ tests/db.integration.test.ts > exchange rates & routing > treats same-bank transfers as zero-cost book transfers 2ms
+ ✓ tests/db.integration.test.ts > exchange rates & routing > returns no route when none exists 1ms
+ ✓ tests/db.integration.test.ts > sweep planning > plans sweeps for surplus accounts and funding for deficit accounts 6ms
+ ✓ tests/db.integration.test.ts > sweep planning > never plans a transfer that leaves the sender below its reserve 3ms
+ ✓ tests/db.integration.test.ts > sweep planning > flags an account as NO_ROUTE when its only corridors are suspended 3ms
+ ✓ tests/db.integration.test.ts > sweep planning > limits funding to the treasury surplus over its own reserve 3ms
+ ✓ tests/db.integration.test.ts > batch execution (transactions) > denies analysts and users of another corporation 2ms
+ ✓ tests/db.integration.test.ts > batch execution (transactions) > moves money atomically, keeps every reserve and writes an audit trail 13ms
+ ✓ tests/db.integration.test.ts > batch execution (transactions) > records a failed transfer, continues the batch and flags it PARTIAL (savepoints) 8ms
+ ✓ tests/db.integration.test.ts > batch execution (transactions) > lets only operators post balance updates and logs them 3ms
+ ✓ tests/db.integration.test.ts > search & views > finds accounts by prefix across bank, subsidiary and country 2ms
+ ✓ tests/db.integration.test.ts > search & views > searches transfer memos with full-text search 1ms
+ ✓ tests/db.integration.test.ts > search & views > re-indexes accounts when a bank is renamed 1ms
+ ✓ tests/db.integration.test.ts > search & views > summarises liquidity per corporation in the base currency 2ms
+ ✓ tests/db.integration.test.ts > use of indexes > uses the GIN index for full-text account search 1ms
+ ✓ tests/pipelines.test.ts > MongoDB aggregation pipelines > counts activity per action and outcome inside the period and tenant 6ms
+ ✓ tests/pipelines.test.ts > MongoDB aggregation pipelines > ranks usernames by failed sign-in attempts 2ms
+ ✓ tests/pipelines.test.ts > MongoDB aggregation pipelines > flattens nested transfer/route arrays and ignores failed transfers 2ms
+ ✓ tests/pipelines.test.ts > MongoDB aggregation pipelines > computes the fee rate per batch and guards against division by zero 1ms
+
+ Test Files  3 passed (3)
+      Tests  51 passed (51)
+   Start at  06:16:59
+   Duration  5.54s (transform 118ms, setup 0ms, collect 305ms, tests 4.67s, environment 1ms, prepare 183ms)
+

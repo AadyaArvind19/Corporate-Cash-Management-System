@@ -1,0 +1,91 @@
+erDiagram
+    CORPORATIONS ||--o{ SUBSIDIARIES : "owns"
+    CORPORATIONS ||--o{ USERS : "employs"
+    CORPORATIONS ||--o{ BANK_ACCOUNTS : "holds"
+    CORPORATIONS ||--o{ SWEEP_BATCHES : "runs"
+    SUBSIDIARIES ||--o{ BANK_ACCOUNTS : "operates"
+    BANKS ||--o{ BANK_ACCOUNTS : "hosts"
+    BANKS ||--o{ ROUTING_CORRIDORS : "source of"
+    BANKS ||--o{ ROUTING_CORRIDORS : "destination of"
+    CURRENCIES ||--o{ BANK_ACCOUNTS : "denominates"
+    CURRENCIES ||--o{ EXCHANGE_RATES : "base / quote"
+    CURRENCIES ||--o{ CORPORATIONS : "base currency"
+    USERS ||--o{ SWEEP_BATCHES : "initiates"
+    USERS ||--o{ BALANCE_HISTORY : "changes"
+    SWEEP_BATCHES ||--|{ SWEEP_TRANSACTIONS : "contains"
+    BANK_ACCOUNTS ||--o{ SWEEP_TRANSACTIONS : "debited by"
+    BANK_ACCOUNTS ||--o{ SWEEP_TRANSACTIONS : "credited by"
+    BANK_ACCOUNTS ||--o{ BALANCE_HISTORY : "audited in"
+    SWEEP_TRANSACTIONS ||--o{ SWEEP_TRANSACTION_HOPS : "routed through"
+    ROUTING_CORRIDORS ||--o{ SWEEP_TRANSACTION_HOPS : "used by"
+
+    CORPORATIONS { int corp_id PK
+        string legal_name UK
+        char hq_country
+        char base_currency FK
+        string tax_id UK }
+    SUBSIDIARIES { int subsidiary_id PK
+        int corp_id FK
+        string name
+        char country }
+    USERS { int user_id PK
+        int corp_id FK
+        string username UK
+        string email UK
+        string password_hash
+        enum role
+        bool is_active }
+    BANKS { int bank_id PK
+        string name
+        string swift_bic UK
+        char country }
+    CURRENCIES { char code PK
+        string name }
+    BANK_ACCOUNTS { int account_id PK
+        int corp_id FK
+        int subsidiary_id FK
+        int bank_id FK
+        char currency FK
+        string account_number
+        enum account_type
+        numeric balance
+        numeric min_reserve
+        numeric min_sweep_amount
+        enum status }
+    EXCHANGE_RATES { bigint rate_id PK
+        char base_currency FK
+        char quote_currency FK
+        numeric rate
+        timestamptz effective_at }
+    ROUTING_CORRIDORS { int corridor_id PK
+        int source_bank_id FK
+        int destination_bank_id FK
+        numeric fee_flat
+        char fee_currency FK
+        numeric fee_percent
+        int latency_minutes
+        enum status }
+    SWEEP_BATCHES { int batch_id PK
+        int corp_id FK
+        int initiated_by FK
+        enum status
+        timestamptz created_at }
+    SWEEP_TRANSACTIONS { bigint txn_id PK
+        int batch_id FK
+        enum transfer_type
+        int source_account_id FK
+        int destination_account_id FK
+        numeric amount_source
+        numeric fee_amount
+        numeric fx_rate
+        numeric amount_destination
+        enum status }
+    SWEEP_TRANSACTION_HOPS { bigint txn_id PK
+        int hop_no PK
+        int corridor_id FK }
+    BALANCE_HISTORY { bigint history_id PK
+        int account_id FK
+        numeric old_balance
+        numeric new_balance
+        int changed_by FK
+        bigint txn_id FK }

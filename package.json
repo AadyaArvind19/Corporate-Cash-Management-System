@@ -1,0 +1,33 @@
+{
+  "name": "corporate-cash-management-system",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Corporate Cash Management System - multi-currency liquidity sweeping on PostgreSQL + MongoDB with a Next.js interface",
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "typecheck": "tsc --noEmit",
+    "db:rebuild": "bash db/postgres/rebuild.sh",
+    "test": "vitest run"
+  },
+  "dependencies": {
+    "bcryptjs": "^3.0.3",
+    "jose": "^6.0.0",
+    "mongodb": "^6.22.0",
+    "next": "15.5.28",
+    "pg": "^8.16.0",
+    "react": "19.1.10",
+    "react-dom": "19.1.10",
+    "zod": "^3.25.76"
+  },
+  "devDependencies": {
+    "@types/node": "^22.10.0",
+    "@types/pg": "^8.15.0",
+    "@types/react": "^19.1.0",
+    "@types/react-dom": "^19.1.0",
+    "mingo": "^6.5.0",
+    "typescript": "5.9.3",
+    "vitest": "^3.2.7"
+  }
+}
